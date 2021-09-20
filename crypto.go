@@ -119,6 +119,13 @@ func getCryptoNews(ginReturn *gin.Context) {
 	body, _ := ioutil.ReadAll(resp.Body)
 	var cryptoNewsResp cryptoNewsResponse
 	json.Unmarshal(body, &cryptoNewsResp)
+	for index, value := range cryptoNewsResp.Data {
+		if value.Cover == "" {
+			fmt.Println("empty")
+			cryptoNewsResp.Data[index].Cover = "https://s2.coinmarketcap.com/static/cloud/img/news/placeholder1.jpg"
+		}
+	}
+	fmt.Println(cryptoNewsResp)
 	ginReturn.IndentedJSON(http.StatusOK, cryptoNewsResp)
 
 }
