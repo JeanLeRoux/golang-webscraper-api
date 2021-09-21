@@ -63,6 +63,7 @@ type cryptoQuotes struct {
 type cryptoMetadata struct {
 	Id      int    `json:"id"`
 	Name    string `json:"name"`
+	Slug    string `json:"slug"`
 	Symbol  string `json:"symbol"`
 	CmcRank int    `json:"cmcRank"`
 	IconUrl string `json:"iconUrl"`
@@ -99,6 +100,7 @@ func getCryptoMetadata(ginReturn *gin.Context) {
 		temp := cryptoMetadata{
 			Id:      value.Id,
 			Name:    value.Name,
+			Slug:    value.Slug,
 			Symbol:  value.Symbol,
 			CmcRank: value.CmcRank,
 			IconUrl: fmt.Sprintf("https://s2.coinmarketcap.com/static/img/coins/128x128/%s.png", strconv.Itoa(value.Id)),
