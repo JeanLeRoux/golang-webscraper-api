@@ -90,15 +90,7 @@ type cryptoGraphResponse struct {
 }
 
 type graphData struct {
-	Points []graphPoints `json:"points"`
-}
-
-type graphPoints struct {
-	timestamp graphTimestampData
-}
-
-type graphTimestampData struct {
-	V []float64 `json:"v"`
+	Points map[string]interface{} `json:"points"`
 }
 
 func getCryptoMetadata(ginReturn *gin.Context) {
@@ -155,13 +147,9 @@ func getCryptoChartData(ginReturn *gin.Context) {
 	}
 	defer resp.Body.Close()
 	body, _ := ioutil.ReadAll(resp.Body)
-	var cryptoNewsResp cryptoNewsResponse
-	json.Unmarshal(body, &cryptoNewsResp)
-	for index, value := range cryptoNewsResp.Data {
-		if value.Cover == "" {
-			cryptoNewsResp.Data[index].Cover = "https://s2.coinmarketcap.com/static/cloud/img/news/placeholder1.jpg"
-		}
-	}
-	ginReturn.IndentedJSON(http.StatusOK, cryptoNewsResp)
+	var cryptoGraphResp cryptoGraphResponse
+	json.Unmarshal(body, &cryptoGraphResp)
+	fmt.Println(cryptoGraphResp)
+	ginReturn.IndentedJSON(http.StatusOK, cryptoGraphResp)
 
 }

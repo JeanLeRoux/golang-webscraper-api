@@ -9,5 +9,6 @@ func main() {
 	router.GET("/Tech", getLatestTech)
 	router.GET("/CryptoMeta", getCryptoMetadata)
 	router.GET("/CryptoNews", getCryptoNews)
+	router.GET("/CryptoChart", getCryptoChartData)
 	router.Run("localhost:8000")
 }
