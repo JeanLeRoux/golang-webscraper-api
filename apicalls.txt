@@ -1,4 +1,4 @@
-https://api.coinmarketcap.com/data-api/v3/cryptocurrency/detail/chart?id=1&range=1D
+
 https://api.coinmarketcap.com/data-api/v3/cryptocurrency/historical?id=1&convertId=2781&timeStart=1623974400&timeEnd=1631923200
 
 
