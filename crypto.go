@@ -149,7 +149,24 @@ func getCryptoChartData(ginReturn *gin.Context) {
 	body, _ := ioutil.ReadAll(resp.Body)
 	var cryptoGraphResp cryptoGraphResponse
 	json.Unmarshal(body, &cryptoGraphResp)
-	fmt.Println(cryptoGraphResp)
-	ginReturn.IndentedJSON(http.StatusOK, cryptoGraphResp)
+	graphChartPoint := [][]int{}
+	for pointKey, pointValues := range cryptoGraphResp.Data.Points {
+		prices := pointValues.(map[string]interface{})["v"].([]interface{})
+		newPointKey, _ := strconv.Atoi(pointKey)
+
+		temp := []int{
+			newPointKey,
+		}
+
+		for k, v := range prices {
+			if k == 0 || k == 1 {
+				val, _ := v.(float64)
+				temp = append(temp, int(val))
+			}
+		}
+
+		graphChartPoint = append(graphChartPoint, temp)
+	}
+	ginReturn.IndentedJSON(http.StatusOK, graphChartPoint)
 
 }
