@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"sort"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -141,7 +142,7 @@ func getCryptoNews(ginReturn *gin.Context) {
 
 func getCryptoChartData(ginReturn *gin.Context) {
 	ginReturn.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:4200")
-	resp, err := http.Get("https://api.coinmarketcap.com/data-api/v3/cryptocurrency/detail/chart?id=1&range=1D")
+	resp, err := http.Get("https://api.coinmarketcap.com/data-api/v3/cryptocurrency/detail/chart?id=1&range=1M")
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -166,7 +167,17 @@ func getCryptoChartData(ginReturn *gin.Context) {
 		}
 
 		graphChartPoint = append(graphChartPoint, temp)
+
 	}
+	sort.Slice(graphChartPoint[:], func(i, j int) bool {
+		for x := range graphChartPoint[i] {
+			if graphChartPoint[i][x] == graphChartPoint[j][x] {
+				continue
+			}
+			return graphChartPoint[i][x] < graphChartPoint[j][x]
+		}
+		return false
+	})
 	ginReturn.IndentedJSON(http.StatusOK, graphChartPoint)
 
 }
