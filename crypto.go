@@ -94,9 +94,11 @@ type graphData struct {
 	Points map[string]interface{} `json:"points"`
 }
 
+var cryptoListUrl = "https://api.coinmarketcap.com/data-api/v3/cryptocurrency/listing?start=1&limit=100&sortBy=market_cap&sortType=desc&convert=USD&cryptoType=all&tagType=all&audited=false&aux=ath,atl,high24h,low24h,num_market_pairs,cmc_rank,date_added,max_supply,circulating_supply,total_supply,volume_7d,volume_30d"
+
 func getCryptoMetadata(ginReturn *gin.Context) {
 	ginReturn.Writer.Header().Set("Access-Control-Allow-Origin", "https://go-crypto-backend.herokuapp.com")
-	resp, err := http.Get("https://api.coinmarketcap.com/data-api/v3/cryptocurrency/listing?start=1&limit=100&sortBy=market_cap&sortType=desc&convert=USD&cryptoType=all&tagType=all&audited=false&aux=ath,atl,high24h,low24h,num_market_pairs,cmc_rank,date_added,max_supply,circulating_supply,total_supply,volume_7d,volume_30d")
+	resp, err := http.Get(cryptoListUrl)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -142,7 +144,8 @@ func getCryptoNews(ginReturn *gin.Context) {
 
 func getCryptoChartData(ginReturn *gin.Context) {
 	ginReturn.Writer.Header().Set("Access-Control-Allow-Origin", "https://go-crypto-backend.herokuapp.com")
-	resp, err := http.Get("https://api.coinmarketcap.com/data-api/v3/cryptocurrency/detail/chart?id=1&range=1M")
+	url := fmt.Sprintf("https://api.coinmarketcap.com/data-api/v3/cryptocurrency/detail/chart?id=%s&range=ALL", ginReturn.Query("crypto"))
+	resp, err := http.Get(url)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -153,7 +156,7 @@ func getCryptoChartData(ginReturn *gin.Context) {
 	graphChartPoint := [][]int{}
 	for pointKey, pointValues := range cryptoGraphResp.Data.Points {
 		prices := pointValues.(map[string]interface{})["v"].([]interface{})
-		newPointKey, _ := strconv.Atoi(pointKey)
+		newPointKey, _ := strconv.Atoi(pointKey + "000")
 
 		temp := []int{
 			newPointKey,
@@ -180,4 +183,23 @@ func getCryptoChartData(ginReturn *gin.Context) {
 	})
 	ginReturn.IndentedJSON(http.StatusOK, graphChartPoint)
 
+}
+
+func getCryptoDetails(ginReturn *gin.Context) {
+	ginReturn.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:4200")
+	resp, err := http.Get(cryptoListUrl)
+	cryptoId, _ := strconv.Atoi(ginReturn.Query("crypto"))
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer resp.Body.Close()
+	body, _ := ioutil.ReadAll(resp.Body)
+	var cryptoListResp cryptoListResponse
+	json.Unmarshal(body, &cryptoListResp)
+	for _, value := range cryptoListResp.Data.CryptoCurrencyList {
+		if value.Id == cryptoId {
+			fmt.Println(value)
+		}
+	}
+	ginReturn.IndentedJSON(http.StatusOK, cryptoListResp)
 }

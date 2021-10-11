@@ -10,5 +10,6 @@ func main() {
 	router.GET("/CryptoMeta", getCryptoMetadata)
 	router.GET("/CryptoNews", getCryptoNews)
 	router.GET("/CryptoChart", getCryptoChartData)
+	router.GET("/CryptoDetails", getCryptoDetails)
 	router.Run()
 }
