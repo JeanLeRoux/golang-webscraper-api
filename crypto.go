@@ -95,7 +95,7 @@ type graphData struct {
 }
 
 func getCryptoMetadata(ginReturn *gin.Context) {
-	ginReturn.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:4200")
+	ginReturn.Writer.Header().Set("Access-Control-Allow-Origin", "https://go-crypto-backend.herokuapp.com")
 	resp, err := http.Get("https://api.coinmarketcap.com/data-api/v3/cryptocurrency/listing?start=1&limit=100&sortBy=market_cap&sortType=desc&convert=USD&cryptoType=all&tagType=all&audited=false&aux=ath,atl,high24h,low24h,num_market_pairs,cmc_rank,date_added,max_supply,circulating_supply,total_supply,volume_7d,volume_30d")
 	if err != nil {
 		fmt.Println(err)
@@ -121,7 +121,7 @@ func getCryptoMetadata(ginReturn *gin.Context) {
 }
 
 func getCryptoNews(ginReturn *gin.Context) {
-	ginReturn.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:4200")
+	ginReturn.Writer.Header().Set("Access-Control-Allow-Origin", "https://go-crypto-backend.herokuapp.com")
 	url := fmt.Sprintf("https://api.coinmarketcap.com/data-api/v3/headlines/coinPage/news/slug?slug=%s&size=5&page=1", ginReturn.Query("crypto"))
 	resp, err := http.Get(url)
 	if err != nil {
@@ -141,7 +141,7 @@ func getCryptoNews(ginReturn *gin.Context) {
 }
 
 func getCryptoChartData(ginReturn *gin.Context) {
-	ginReturn.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:4200")
+	ginReturn.Writer.Header().Set("Access-Control-Allow-Origin", "https://go-crypto-backend.herokuapp.com")
 	resp, err := http.Get("https://api.coinmarketcap.com/data-api/v3/cryptocurrency/detail/chart?id=1&range=1M")
 	if err != nil {
 		fmt.Println(err)
