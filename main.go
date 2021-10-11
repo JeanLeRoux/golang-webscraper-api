@@ -10,5 +10,5 @@ func main() {
 	router.GET("/CryptoMeta", getCryptoMetadata)
 	router.GET("/CryptoNews", getCryptoNews)
 	router.GET("/CryptoChart", getCryptoChartData)
-	router.Run("https://go-crypto-backend.herokuapp.com:8000")
+	router.Run(":" + port)
 }
