@@ -97,7 +97,7 @@ type graphData struct {
 var cryptoListUrl = "https://api.coinmarketcap.com/data-api/v3/cryptocurrency/listing?start=1&limit=100&sortBy=market_cap&sortType=desc&convert=USD&cryptoType=all&tagType=all&audited=false&aux=ath,atl,high24h,low24h,num_market_pairs,cmc_rank,date_added,max_supply,circulating_supply,total_supply,volume_7d,volume_30d"
 
 func getCryptoMetadata(ginReturn *gin.Context) {
-	ginReturn.Writer.Header().Set("Access-Control-Allow-Origin", "https://angular-crypto-frontend.herokuapp.com, http://localhost")
+	ginReturn.Writer.Header().Set("Access-Control-Allow-Origin", "https://angular-crypto-frontend.herokuapp.com, http://localhost:4200")
 	resp, err := http.Get(cryptoListUrl)
 	if err != nil {
 		fmt.Println(err)
@@ -123,7 +123,7 @@ func getCryptoMetadata(ginReturn *gin.Context) {
 }
 
 func getCryptoNews(ginReturn *gin.Context) {
-	ginReturn.Writer.Header().Set("Access-Control-Allow-Origin", "https://angular-crypto-frontend.herokuapp.com, http://localhost")
+	ginReturn.Writer.Header().Set("Access-Control-Allow-Origin", "https://angular-crypto-frontend.herokuapp.com, http://localhost:4200")
 	url := fmt.Sprintf("https://api.coinmarketcap.com/data-api/v3/headlines/coinPage/news/slug?slug=%s&size=5&page=1", ginReturn.Query("crypto"))
 	resp, err := http.Get(url)
 	if err != nil {
@@ -143,7 +143,7 @@ func getCryptoNews(ginReturn *gin.Context) {
 }
 
 func getCryptoChartData(ginReturn *gin.Context) {
-	ginReturn.Writer.Header().Set("Access-Control-Allow-Origin", "https://angular-crypto-frontend.herokuapp.com, http://localhost")
+	ginReturn.Writer.Header().Set("Access-Control-Allow-Origin", "https://angular-crypto-frontend.herokuapp.com, http://localhost:4200")
 	url := fmt.Sprintf("https://api.coinmarketcap.com/data-api/v3/cryptocurrency/detail/chart?id=%s&range=ALL", ginReturn.Query("crypto"))
 	resp, err := http.Get(url)
 	if err != nil {
@@ -186,7 +186,7 @@ func getCryptoChartData(ginReturn *gin.Context) {
 }
 
 func getCryptoDetails(ginReturn *gin.Context) {
-	ginReturn.Writer.Header().Set("Access-Control-Allow-Origin", "https://angular-crypto-frontend.herokuapp.com, http://localhost")
+	ginReturn.Writer.Header().Set("Access-Control-Allow-Origin", "https://angular-crypto-frontend.herokuapp.com, http://localhost:4200")
 	resp, err := http.Get(cryptoListUrl)
 	cryptoId, _ := strconv.Atoi(ginReturn.Query("crypto"))
 	if err != nil {
