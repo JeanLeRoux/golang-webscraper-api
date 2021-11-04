@@ -4,3 +4,5 @@ https://api.coinmarketcap.com/data-api/v3/cryptocurrency/listing?start=1&limit=1
 
 
 curl -X POST -d '{"name": "linuxize", "email": "linuxize@example.com"}' http:///localhost:8000/CryptoNews
+
+curl --header "Content-Type: application/json" --request POST --data "{\"id\":\"1\",\"Title\":\"My Todo\",\"Description\":\"My Description\"}" http://<Your wifi ipv4 address>:3000/addTodo
